@@ -1,51 +1,73 @@
-# Media Tracker
+# Media Tracker API
 
-Media Tracker es un proyecto demo en Spring Boot para llevar un registro de series, películas, libros y videojuegos, con estados, puntuación y comentarios personales.  
-
----
-
-## 1️⃣ Entorno de desarrollo
-
-- **Java:** 17
-- **IDE:** IntelliJ IDEA
-- **Spring Boot:** 3.5.4
-- **Gestión de dependencias:** Maven
-
-Dependencias iniciales seleccionadas al crear el proyecto:
-
-- Spring Web
-- Spring Data JPA
-- Spring Security
-- Spring Boot DevTools
-- Flyway
-- H2 Database
-- Validation
-- Actuator
-
-El proyecto se generó como **JAR**.
+Aplicación para el seguimiento de medios con gestión de usuarios y autenticación segura mediante JWT.
 
 ---
 
-## 2️⃣ Control de versiones
+## Tecnologías
 
-- **Git** instalado en el equipo.
-- Repositorio en GitHub: [https://github.com/HoroHoro79/media-tracker.git](https://github.com/HoroHoro79/media-tracker.git)
-- Primer commit subido al repositorio.
-- Uso de **SourceTree** para la gestión de commits, push y pull.
+| Tecnología                | Uso principal |
+|----------------------------|---------------|
+| **Java 17**               | Lenguaje de programación |
+| **Spring Boot 3**         | Framework principal |
+| **Spring Security + JWT** | Autenticación y autorización |
+| **PostgreSQL**            | Base de datos |
+| **Lombok**                | Reducción de boilerplate |
+| **Swagger / OpenAPI**     | Documentación y pruebas de la API |
 
 ---
 
-## 3️⃣ Configuración del IDE
+## Funcionalidad actual de la aplicación
 
-- Abrir proyecto en IntelliJ IDEA.
-- Configuración del **JDK 17**.
-- Importación de dependencias con Maven (`mvn clean install`).
-- Configuración de Spring Boot para usar **H2 Database** temporal:
+Actualmente la aplicación permite:
 
-```properties
-spring.datasource.url=jdbc:h2:mem:mediatrackerdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
-spring.h2.console.enabled=true
+- Registrar y gestionar usuarios.  
+- Acceder a recursos protegidos mediante autenticación JWT.  
+- Cambiar la contraseña de un usuario.  
+- Documentar y probar la API con Swagger.  
+
+> Nota: la idea futura es añadir seguimiento de **series, películas, libros, videojuegos**, etc.
+
+---
+
+## Flujo de seguridad (JWT)
+
+```text
+          +-------------------+
+          |      Login        |
+          |-------------------|
+          | Usuario + Pass    |
+          +-------------------+
+                    |
+                    v
+          +-------------------+
+          | Validación usuario|
+          | y contraseña      |
+          +-------------------+
+                    |
+          Genera token JWT
+                    v
+          +-------------------+
+          | Devuelve token al |
+          | cliente           |
+          +-------------------+
+                    |
+                    v
+          +-------------------+
+          | Peticiones a API  |
+          | con Authorization |
+          | Bearer <token>    |
+          +-------------------+
+                    |
+                    v
+          +-------------------+
+          | JwtFilter valida  |
+          | token y carga     |
+          | Authentication   |
+          +-------------------+
+                    |
+                    v
+          +-------------------+
+          | Acceso concedido  |
+          | o denegado        |
+          +-------------------+
