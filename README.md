@@ -1,6 +1,6 @@
 # 🎬 Media Tracker API
 
-Aplicación backend para gestionar usuarios y, en el futuro, registrar y hacer seguimiento de **series, películas, libros y videojuegos**, con autenticación segura y documentación completa.
+Backend para **gestionar usuarios** y, en el futuro, **registrar y hacer seguimiento de series, películas, libros y videojuegos**, con autenticación segura y documentación completa.
 
 ---
 
@@ -29,39 +29,30 @@ Actualmente la aplicación permite:
 
 ---
 
-## 🗂 Arquitectura y flujo de seguridad (JWT)
+## 🗂 Arquitectura y flujo de seguridad
 
 ```text
-       ┌───────────────┐
-       │   Cliente /   │
-       │ Swagger / App │
-       └───────┬───────┘
-               │
-               │ POST /login (user + pass)
-               ▼
-       ┌───────────────┐
-       │  LoginController
-       │ Valida usuario│
-       │ y contraseña │
-       └───────┬───────┘
-               │
-               │ Genera JWT
-               ▼
-       ┌───────────────┐
-       │  JWT devuelto │
-       │ al cliente    │
-       └───────┬───────┘
-               │
-               │ Enviar Authorization: Bearer <token>
-               ▼
-       ┌───────────────┐
-       │ JwtFilter     │
-       │ Valida token  │
-       │ y carga auth  │
-       └───────┬───────┘
-               │
-       ┌───────▼────────┐
-       │ Acceso a API   │
-       │ autorizado o  │
-       │ denegado       │
-       └────────────────┘
+  ┌───────────────┐        ┌───────────────────────┐
+  │   Cliente /   │ POST   │ LoginController       │
+  │ Swagger / App │──────> │ Valida usuario y pass │
+  └───────────────┘        └──────────┬────────────┘
+                                        │
+                                        │ JWT generado
+                                        ▼
+                                ┌─────────────────┐
+                                │ JWT devuelto     │
+                                │ al cliente       │
+                                └──────────┬──────┘
+                                           │
+                                           │ Authorization: Bearer <token>
+                                           ▼
+                                ┌─────────────────┐
+                                │ JwtFilter        │
+                                │ Valida token     │
+                                │ y carga auth     │
+                                └──────────┬──────┘
+                                           │
+                                ┌──────────▼──────────┐
+                                │ Acceso a API        │
+                                │ concedido o denegado│
+                                └─────────────────────┘
