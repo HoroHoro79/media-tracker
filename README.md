@@ -1,73 +1,67 @@
-# Media Tracker API
+# 🎬 Media Tracker API
 
-Aplicación para el seguimiento de medios con gestión de usuarios y autenticación segura mediante JWT.
-
----
-
-## Tecnologías
-
-| Tecnología                | Uso principal |
-|----------------------------|---------------|
-| **Java 17**               | Lenguaje de programación |
-| **Spring Boot 3**         | Framework principal |
-| **Spring Security + JWT** | Autenticación y autorización |
-| **PostgreSQL**            | Base de datos |
-| **Lombok**                | Reducción de boilerplate |
-| **Swagger / OpenAPI**     | Documentación y pruebas de la API |
+Aplicación backend para gestionar usuarios y, en el futuro, registrar y hacer seguimiento de **series, películas, libros y videojuegos**, con autenticación segura y documentación completa.
 
 ---
 
-## Funcionalidad actual de la aplicación
+## 🛠 Tecnologías principales
+
+| Tecnología                 | Propósito |
+|-----------------------------|-----------|
+| **Java 17**                | Lenguaje principal |
+| **Spring Boot 3**          | Framework backend |
+| **Spring Security + JWT**  | Autenticación y autorización |
+| **PostgreSQL**             | Persistencia de datos |
+| **Lombok**                 | Reducción de boilerplate |
+| **Swagger / OpenAPI**      | Documentación y testing de la API |
+
+---
+
+## ⚡ Funcionalidad actual de la aplicación
 
 Actualmente la aplicación permite:
 
-- Registrar y gestionar usuarios.  
-- Acceder a recursos protegidos mediante autenticación JWT.  
-- Cambiar la contraseña de un usuario.  
-- Documentar y probar la API con Swagger.  
+- 🔐 **Gestión de usuarios**: registro, login y cambio de contraseña.  
+- 🛡 **Autenticación JWT**: acceso seguro a recursos protegidos.  
+- 📜 **Documentación con Swagger**: prueba y visualización de endpoints.  
 
-> Nota: la idea futura es añadir seguimiento de **series, películas, libros, videojuegos**, etc.
+> Nota: la idea futura es añadir **tracking de medios**: series, películas, libros, videojuegos, etc.
 
 ---
 
-## Flujo de seguridad (JWT)
+## 🗂 Arquitectura y flujo de seguridad (JWT)
 
 ```text
-          +-------------------+
-          |      Login        |
-          |-------------------|
-          | Usuario + Pass    |
-          +-------------------+
-                    |
-                    v
-          +-------------------+
-          | Validación usuario|
-          | y contraseña      |
-          +-------------------+
-                    |
-          Genera token JWT
-                    v
-          +-------------------+
-          | Devuelve token al |
-          | cliente           |
-          +-------------------+
-                    |
-                    v
-          +-------------------+
-          | Peticiones a API  |
-          | con Authorization |
-          | Bearer <token>    |
-          +-------------------+
-                    |
-                    v
-          +-------------------+
-          | JwtFilter valida  |
-          | token y carga     |
-          | Authentication   |
-          +-------------------+
-                    |
-                    v
-          +-------------------+
-          | Acceso concedido  |
-          | o denegado        |
-          +-------------------+
+       ┌───────────────┐
+       │   Cliente /   │
+       │ Swagger / App │
+       └───────┬───────┘
+               │
+               │ POST /login (user + pass)
+               ▼
+       ┌───────────────┐
+       │  LoginController
+       │ Valida usuario│
+       │ y contraseña │
+       └───────┬───────┘
+               │
+               │ Genera JWT
+               ▼
+       ┌───────────────┐
+       │  JWT devuelto │
+       │ al cliente    │
+       └───────┬───────┘
+               │
+               │ Enviar Authorization: Bearer <token>
+               ▼
+       ┌───────────────┐
+       │ JwtFilter     │
+       │ Valida token  │
+       │ y carga auth  │
+       └───────┬───────┘
+               │
+       ┌───────▼────────┐
+       │ Acceso a API   │
+       │ autorizado o  │
+       │ denegado       │
+       └────────────────┘
