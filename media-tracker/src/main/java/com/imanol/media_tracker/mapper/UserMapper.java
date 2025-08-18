@@ -6,7 +6,7 @@ import com.imanol.media_tracker.model.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 @Component
 public class UserMapper {
@@ -17,7 +17,7 @@ public class UserMapper {
                 .createDate(LocalDateTime.now()).build();
     }
 
-    public UserResponse UserToDto(User user)
+    public UserResponse entityToDto(User user)
     {
         return UserResponse.builder().id(user.getId()).username(user.getUsername()).email(user.getEmail()).build();
     }

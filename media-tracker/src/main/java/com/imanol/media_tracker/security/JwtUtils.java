@@ -11,21 +11,35 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String jwtSecret = "MiClaveSecretaMuySeguraParaJWT123456"; // mínimo 32 caracteres
-    private final long jwtExpirationMs = 3600000; // 1 hora
+    private final String jwtSecret = "EstaEsUnaClaveSuperSeguraDeAlMenos64CaracteresParaHS512!1234567890ABCDEF";
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());// mínimo 32 caracteres
+    private final long accessTokenExpirationMs = 15 * 60 * 1000; // 15 min
+    private final long refreshTokenExpirationMs = 24 * 60 * 60 * 1000; // 24h
 
-    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-    // Genera token
-    public String generateToken(String username) {
+    // Genera Access Token
+    public String generateAccessToken(String username) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        Date expiryDate = new Date(now.getTime() + accessTokenExpirationMs);
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+    // Genera Refresh Token
+    public String generateRefreshToken(String username) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + refreshTokenExpirationMs);
+
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -49,7 +63,7 @@ public class JwtUtils {
         }
     }
 
-
+    // Extrae token desde la cabecera Authorization
     public String extractToken(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -57,5 +71,4 @@ public class JwtUtils {
         }
         return null; // no hay token o formato incorrecto
     }
-
 }

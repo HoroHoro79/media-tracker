@@ -34,25 +34,25 @@ public class UserFacade {
         }
 
         User savedUser = userService.createUser(userMapper.createRequestToEntity(request));
-        return userMapper.UserToDto(savedUser);
+        return userMapper.entityToDto(savedUser);
 
     }
 
     public List<UserResponse> getAllUsers() {
         List<User> users =  userService.findAll();
-        return users.stream().map(userMapper::UserToDto).toList();
+        return users.stream().map(userMapper::entityToDto).toList();
     }
 
     public UserResponse getById(Long id) {
         User user = userService.findById(id);
-        return userMapper.UserToDto(user);
+        return userMapper.entityToDto(user);
     }
 
     public UserResponse changePassword(@Valid ChangePasswordUserRequest request) {
         Optional<User> user = userService.findByUsernameOrEmail(request.getUsername());
         if(user.isPresent()){
             user.get().setPassword(request.getPassword());
-          return  userMapper.UserToDto(userService.update(user.get()));
+          return  userMapper.entityToDto(userService.update(user.get()));
         }
         throw new ObjectNotExistsException("User not exists");
     }

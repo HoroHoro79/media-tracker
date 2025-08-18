@@ -5,6 +5,7 @@ import com.imanol.media_tracker.dto.response.LoginResponse;
 import com.imanol.media_tracker.model.User;
 import com.imanol.media_tracker.security.JwtUtils;
 import com.imanol.media_tracker.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,23 +21,27 @@ public class LoginFacade {
     private final PasswordEncoder passwordEncoder;
 
     public LoginResponse generateToken(LoginRequest request) throws LoginException {
-
         User user = userService.findByUsernameOrEmail(request.getUser())
                 .orElse(null);
-
         boolean passwordMatches = false;
         if (user != null) {
             passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword());
         } else {
             passwordEncoder.matches(request.getPassword(), "$2a$10$abcdefghijklmnopqrstuv");
         }
-
         if (user == null || !passwordMatches) {
             throw new LoginException("Usuario o contraseña inválidos.");
         }
-
         // Generamos token JWT
-        String token = jwtUtils.generateToken(user.getUsername());
-        return LoginResponse.builder().token(token).build();
+        String token = jwtUtils.generateAccessToken(user.getUsername());
+        String refreshToken = jwtUtils.generateRefreshToken(user.getUsername());
+        return LoginResponse.builder().accesToken(token).refreshToken(refreshToken).build();
     }
+
+    public LoginResponse generateTokenByRefreshToken(HttpServletRequest request) {
+        String refreshToken = jwtUtils.extractToken(request);
+        String accesToken = jwtUtils.generateAccessToken(jwtUtils.getUsernameFromToken(refreshToken));
+        return LoginResponse.builder().accesToken(accesToken).refreshToken(refreshToken).build();
+    }
+
 }
