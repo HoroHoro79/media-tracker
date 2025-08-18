@@ -1,51 +1,58 @@
-# Media Tracker
+# 🎬 Media Tracker API
 
-Media Tracker es un proyecto demo en Spring Boot para llevar un registro de series, películas, libros y videojuegos, con estados, puntuación y comentarios personales.  
-
----
-
-## 1️⃣ Entorno de desarrollo
-
-- **Java:** 17
-- **IDE:** IntelliJ IDEA
-- **Spring Boot:** 3.5.4
-- **Gestión de dependencias:** Maven
-
-Dependencias iniciales seleccionadas al crear el proyecto:
-
-- Spring Web
-- Spring Data JPA
-- Spring Security
-- Spring Boot DevTools
-- Flyway
-- H2 Database
-- Validation
-- Actuator
-
-El proyecto se generó como **JAR**.
+Backend para **gestionar usuarios** y, en el futuro, **registrar y hacer seguimiento de series, películas, libros y videojuegos**, con autenticación segura y documentación completa.
 
 ---
 
-## 2️⃣ Control de versiones
+## 🛠 Tecnologías principales
 
-- **Git** instalado en el equipo.
-- Repositorio en GitHub: [https://github.com/HoroHoro79/media-tracker.git](https://github.com/HoroHoro79/media-tracker.git)
-- Primer commit subido al repositorio.
-- Uso de **SourceTree** para la gestión de commits, push y pull.
+| Tecnología                 | Propósito |
+|-----------------------------|-----------|
+| **Java 17**                | Lenguaje principal |
+| **Spring Boot 3**          | Framework backend |
+| **Spring Security + JWT**  | Autenticación y autorización |
+| **PostgreSQL**             | Persistencia de datos |
+| **Lombok**                 | Reducción de boilerplate |
+| **Swagger / OpenAPI**      | Documentación y testing de la API |
 
 ---
 
-## 3️⃣ Configuración del IDE
+## ⚡ Funcionalidad actual de la aplicación
 
-- Abrir proyecto en IntelliJ IDEA.
-- Configuración del **JDK 17**.
-- Importación de dependencias con Maven (`mvn clean install`).
-- Configuración de Spring Boot para usar **H2 Database** temporal:
+Actualmente la aplicación permite:
 
-```properties
-spring.datasource.url=jdbc:h2:mem:mediatrackerdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
-spring.h2.console.enabled=true
+- 🔐 **Gestión de usuarios**: registro, login y cambio de contraseña.  
+- 🛡 **Autenticación JWT**: acceso seguro a recursos protegidos.  
+- 📜 **Documentación con Swagger**: prueba y visualización de endpoints.  
+
+> Nota: la idea futura es añadir **tracking de medios**: series, películas, libros, videojuegos, etc.
+
+---
+
+## 🗂 Arquitectura y flujo de seguridad
+
+```text
+  ┌───────────────┐        ┌───────────────────────┐
+  │   Cliente /   │ POST   │ LoginController       │
+  │ Swagger / App │──────> │ Valida usuario y pass │
+  └───────────────┘        └──────────┬────────────┘
+                                        │
+                                        │ JWT generado
+                                        ▼
+                                ┌─────────────────┐
+                                │ JWT devuelto     │
+                                │ al cliente       │
+                                └──────────┬──────┘
+                                           │
+                                           │ Authorization: Bearer <token>
+                                           ▼
+                                ┌─────────────────┐
+                                │ JwtFilter        │
+                                │ Valida token     │
+                                │ y carga auth     │
+                                └──────────┬──────┘
+                                           │
+                                ┌──────────▼──────────┐
+                                │ Acceso a API        │
+                                │ concedido o denegado│
+                                └─────────────────────┘
