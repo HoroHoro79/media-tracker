@@ -94,8 +94,14 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // Comprobaciones explícitas para POST /users y POST /login
-        return (ConstantsRest.BASE_USERS_REST.equals(requestPath) ||
-                ConstantsRest.BASE_LOGIN_REST.equals(requestPath)) &&
-                HttpMethod.POST.name().equalsIgnoreCase(method);
+        return ((
+                (
+                        (ConstantsRest.BASE_CONTEXT_PATH + ConstantsRest.BASE_USERS_REST).equals(requestPath) ||
+                                (ConstantsRest.BASE_CONTEXT_PATH + ConstantsRest.BASE_LOGIN_REST).equals(requestPath)
+                )
+                        &&
+                        HttpMethod.POST.name().equalsIgnoreCase(method))
+                || ((ConstantsRest.BASE_CONTEXT_PATH + ConstantsRest.BASE_USERS_REST).equals(requestPath)
+                && HttpMethod.PUT.name().equalsIgnoreCase(method)));
     }
 }

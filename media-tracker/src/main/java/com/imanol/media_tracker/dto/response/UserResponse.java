@@ -17,4 +17,6 @@ public class UserResponse {
 
     private String email;
 
+    private boolean locked;
+
 }

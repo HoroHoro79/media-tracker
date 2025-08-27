@@ -17,7 +17,9 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    /** ========================= 400 BAD REQUEST ========================= */
+    /**
+     * ========================= 400 BAD REQUEST =========================
+     */
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -47,9 +49,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    /** ========================= 401 UNAUTHORIZED ========================= */
+    /**
+     * ========================= 401 UNAUTHORIZED =========================
+     */
     @ExceptionHandler(ObjectNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleObjectNotExistsException(LoginException ex) {
+    public ResponseEntity<ErrorResponse> handleObjectNotExistsException(ObjectNotExistsException ex) {
         ErrorResponse error = ErrorResponse.builder()
                 .message("Recurso no encontrado")
                 .details(Collections.singletonList(ex.getMessage()))
@@ -59,9 +63,11 @@ public class GlobalExceptionHandler {
     }
 
 
-    /** ========================= 401 UNAUTHORIZED ========================= */
-    @ExceptionHandler(LoginException.class)
-    public ResponseEntity<ErrorResponse> handleLoginException(LoginException ex) {
+    /**
+     * ========================= 401 UNAUTHORIZED =========================
+     */
+    @ExceptionHandler(CustomLoginException.class)
+    public ResponseEntity<ErrorResponse> handleLoginException(CustomLoginException ex) {
         ErrorResponse error = ErrorResponse.builder()
                 .message("Autenticación fallida")
                 .details(Collections.singletonList(ex.getMessage()))
@@ -71,7 +77,9 @@ public class GlobalExceptionHandler {
     }
 
 
-    /** ========================= 409 CONFLICT ========================= */
+    /**
+     * ========================= 409 CONFLICT =========================
+     */
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex) {
@@ -83,7 +91,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
-    /** ========================= 500 INTERNAL SERVER ERROR ========================= */
+    /**
+     * ========================= 500 INTERNAL SERVER ERROR =========================
+     */
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorResponse> handleDatabaseException(DataAccessException ex) {

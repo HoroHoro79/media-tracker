@@ -5,6 +5,7 @@ import com.imanol.media_tracker.exception.ObjectNotExistsException;
 import com.imanol.media_tracker.model.User;
 import com.imanol.media_tracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll((Sort.by(Sort.Direction.ASC, "id")));
     }
 
     public User findById(Long id) {
@@ -52,8 +53,6 @@ public class UserService {
     }
 
     public User update(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 }

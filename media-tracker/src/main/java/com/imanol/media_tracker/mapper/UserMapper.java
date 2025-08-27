@@ -19,6 +19,6 @@ public class UserMapper {
 
     public UserResponse entityToDto(User user)
     {
-        return UserResponse.builder().id(user.getId()).username(user.getUsername()).email(user.getEmail()).build();
+        return UserResponse.builder().id(user.getId()).username(user.getUsername()).email(user.getEmail()).locked(user.isAccountLocked()).build();
     }
 }

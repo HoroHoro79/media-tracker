@@ -7,6 +7,8 @@ public final class ConstantsRest {
     private ConstantsRest() {
     }
 
+    public static final String BASE_CONTEXT_PATH = "/api/media-tracker";
+
     public static final String BASE_USERS_REST = "/users";
     public static final String BASE_LOGIN_REST = "/login";
     public static final String BASE_PARAM_REST = "/admin/params";

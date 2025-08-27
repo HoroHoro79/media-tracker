@@ -30,8 +30,9 @@ public class SecurityConfig {
                 // Configuración de permisos
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints públicos
-                        .requestMatchers(HttpMethod.POST, ConstantsRest.BASE_LOGIN_REST).permitAll()
-                        .requestMatchers(HttpMethod.POST, ConstantsRest.BASE_USERS_REST).permitAll()
+                        .requestMatchers(HttpMethod.POST,  ConstantsRest.BASE_LOGIN_REST).permitAll()
+                        .requestMatchers(HttpMethod.POST,  ConstantsRest.BASE_USERS_REST).permitAll()
+                        .requestMatchers(HttpMethod.PUT,  ConstantsRest.BASE_USERS_REST).permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

@@ -22,8 +22,7 @@ public class UserController {
     private final UserFacade userFacade;
 
     @PutMapping
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid ChangePasswordUserRequest request) {
+    public ResponseEntity<UserResponse> changePassword(@RequestBody @Valid ChangePasswordUserRequest request) {
         return new ResponseEntity<>(userFacade.changePassword(request), HttpStatus.OK);
     }
 

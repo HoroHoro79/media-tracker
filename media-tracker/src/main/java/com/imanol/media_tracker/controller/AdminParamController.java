@@ -1,6 +1,7 @@
 package com.imanol.media_tracker.controller;
 
 import com.imanol.media_tracker.constants.ConstantsRest;
+import com.imanol.media_tracker.dto.response.MediaStatusResponse;
 import com.imanol.media_tracker.dto.response.MediaTypeResponse;
 import com.imanol.media_tracker.facade.AdminParamFacade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -24,6 +25,13 @@ public class AdminParamController {
     @GetMapping(ConstantsRest.MEDIA_TYPES)
     public ResponseEntity<List<MediaTypeResponse>> getAllTypes() {
         return new ResponseEntity<>(adminParamFacade.findAllMediaTypes(), HttpStatus.OK);
+    }
+
+
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping(ConstantsRest.MEDIA_STATUS)
+    public ResponseEntity<List<MediaStatusResponse>> getALLStatuses() {
+        return new ResponseEntity<>(adminParamFacade.findAllMediaStatuses(), HttpStatus.OK);
     }
 
 }

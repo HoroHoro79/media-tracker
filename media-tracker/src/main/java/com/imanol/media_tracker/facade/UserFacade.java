@@ -11,6 +11,7 @@ import com.imanol.media_tracker.exception.UserAlreadyExistsException;
 import com.imanol.media_tracker.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class UserFacade {
     private final UserService userService;
 
     private final UserMapper userMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(CreateUserRequest request) {
         // Validaciones
@@ -52,6 +55,10 @@ public class UserFacade {
         Optional<User> user = userService.findByUsernameOrEmail(request.getUsername());
         if(user.isPresent()){
             user.get().setPassword(request.getPassword());
+            user.get().setAccountLocked(false);
+            user.get().setFailedAttempts(0);
+            String encodedPassword = passwordEncoder.encode(user.get().getPassword());
+            user.get().setPassword(encodedPassword);
           return  userMapper.entityToDto(userService.update(user.get()));
         }
         throw new ObjectNotExistsException("User not exists");
