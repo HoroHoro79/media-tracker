@@ -23,7 +23,12 @@ Actualmente la aplicación permite:
 
 - 🔐 **Gestión de usuarios**: registro, login y cambio de contraseña.  
 - 🛡 **Autenticación JWT**: acceso seguro a recursos protegidos.  
-- 📜 **Documentación con Swagger**: prueba y visualización de endpoints.  
+- 🚫 **Bloqueo de cuentas tras 3 intentos fallidos**: el usuario debe restablecer la contraseña para poder volver a acceder.  
+- 📑 **Todos los listados ordenados por ID**.  
+- ⚙️ **Gestión de parámetros de la aplicación**:
+  - Consulta de **tipos de medio** (`MediaType`)  
+  - Consulta de **estados de medio** (`MediaStatus`)  
+- 📜 **Documentación con Swagger**: prueba y visualización de endpoints, con esquema configurado para `api/media-tracker`.  
 
 > Nota: la idea futura es añadir **tracking de medios**: series, películas, libros, videojuegos, etc.
 
