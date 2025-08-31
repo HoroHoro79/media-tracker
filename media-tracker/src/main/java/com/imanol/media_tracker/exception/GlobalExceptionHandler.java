@@ -1,5 +1,6 @@
 package com.imanol.media_tracker.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.imanol.media_tracker.dto.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -48,6 +49,23 @@ public class GlobalExceptionHandler {
         log.error("Type mismatch: {}", detail);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException ex) {
+        String field = ex.getPath().isEmpty() ? "campo desconocido" : ex.getPath().get(0).getFieldName();
+        String detail = String.format("El valor '%s' para el campo '%s' no tiene el formato correcto. Se esperaba dd/MM/yyyy",
+                ex.getValue(), field);
+
+        ErrorResponse error = ErrorResponse.builder()
+                .message("Formato inválido")
+                .details(Collections.singletonList(detail))
+                .build();
+
+        log.error("Invalid format: {}", detail);
+        return ResponseEntity.badRequest().body(error);
+    }
+
 
     /**
      * ========================= 401 UNAUTHORIZED =========================

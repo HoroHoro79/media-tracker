@@ -49,7 +49,7 @@ public class UserService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() ->
-                        new ObjectNotExistsException("El registro con id " + id + " no existe en la BBDD"));
+                        new ObjectNotExistsException("El registro con id " + id + " no existe en la BBDD en la tabla User"));
     }
 
     public User update(User user) {

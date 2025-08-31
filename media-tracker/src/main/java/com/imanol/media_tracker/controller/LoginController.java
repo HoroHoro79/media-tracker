@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.LoginException;
-
 @RestController
 @RequestMapping(ConstantsRest.BASE_LOGIN_REST)
 @RequiredArgsConstructor
@@ -21,7 +19,7 @@ public class LoginController {
     private final LoginFacade loginFacade;
 
     @PostMapping
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws LoginException {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return new ResponseEntity<>( loginFacade.generateToken(loginRequest), HttpStatus.CREATED);
     }
 
