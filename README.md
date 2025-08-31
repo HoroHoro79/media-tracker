@@ -21,16 +21,13 @@ Backend para **gestionar usuarios** y, en el futuro, **registrar y hacer seguimi
 
 Actualmente la aplicación permite:
 
-- 🔐 **Gestión de usuarios**: registro, login y cambio de contraseña.  
+- 🔐 **Gestión de usuarios**:`LoginController` registro, login, cambio de contraseña y bloqueo tras intentos fallidos.  
 - 🛡 **Autenticación JWT**: acceso seguro a recursos protegidos.  
-- 🚫 **Bloqueo de cuentas tras 3 intentos fallidos**: el usuario debe restablecer la contraseña para poder volver a acceder.  
-- 📑 **Todos los listados ordenados por ID**.  
-- ⚙️ **Gestión de parámetros de la aplicación**:
-  - Consulta de **tipos de medio** (`MediaType`)  
-  - Consulta de **estados de medio** (`MediaStatus`)  
-- 📜 **Documentación con Swagger**: prueba y visualización de endpoints, con esquema configurado para `api/media-tracker`.  
+- 🗃 **Controlador de parametrización**: `AdminParamController` para gestionar `MediaType` y `MediaStatus`.  
+- 🎞 **Controlador de gestión de medios**: `MediaController`para crear y consultar los registros en media.
+- 📜 **Documentación con Swagger**: prueba y visualización de endpoints.  
 
-> Nota: la idea futura es añadir **tracking de medios**: series, películas, libros, videojuegos, etc.
+> Nota: la idea futura es añadir **tracking completo de medios**: series, películas, libros, videojuegos, etc.
 
 ---
 
